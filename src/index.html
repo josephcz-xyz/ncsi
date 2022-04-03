@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="stylesheet" href="https://jcdn-1251131545.file.myqcloud.com/awsl.css/0.1.0/awsl.min.css">
+    <link rel="stylesheet" href="/assets/awsl-polyfill.css">
+    <title>NCSI - Joseph's Service</title>
+</head>
+<body>
+    <header class="aw-header">
+        <h1><a href="/">NCSI</a></h1>
+        <nav>
+            <label for="aw-header-nav-expend-doc-demo" class="aw-header-nav-expend"></label>
+            <input id="aw-header-nav-expend-doc-demo" type="checkbox"/ class="aw-header-nav-expend">
+            <ul>
+                <li><a href="https://josephcz.xyz">Home</a></li>
+                <li><a href="https://josephcz.xyz/about.html">About</a></li>
+                <li><a href="/" class="active">NCSI</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="aw-vh-container aw-vh-container-align-header aw-doc">
+        <article>
+            <h1>Joseph's NCSI Service</h1>
+            <p>
+                Welcome to Joseph's NCSI Service. This is a simple echo-reply service like
+                Google <a target="_blank" href="https://developer.android.com/reference/android/net/CaptivePortal">Captive Portal</a> or
+                Microsoft <a target="_blank" href="https://support.microsoft.com/en-us/help/4494446/">NCSI</a>.
+            </p>
+            <p>This service is only for personal use, no no warranty or guarantee. Be careful if you have businesses depend on this service.</p>
+            <div class="toc">
+                <h2>Table of Contents</h2>
+                <ul>
+                    <li><a href="#generate-204">Generate 204</a>
+                    <li><a href="#connecttest">Connection Test</a>
+                    <li><a href="#simple-apis">Simple APIs</a>
+                    <li><a href="#clock">Clock</a>
+                </ul>
+            </div>
+            <section>
+                <h2 id="generate-204">Generate 204</h2>
+                <pre>GET /generate_204</pre>
+                <a target="_blank" href="/generate_204">See Example</a>
+                <p>Return HTTP status <code>204 No Content</code> without body.</p>
+            </section>
+            <section>
+                <h2 id="connecttest">Connection Test</h2>
+                <pre>GET /connecttest.txt</pre>
+                <a target="_blank" href="/connecttest.txt">See Example</a>
+                <p></p>Return plain text <code>Joseph's Connection Test</code> without line final.</p>
+            </section>
+            <section>
+                <h2 id="simple-apis">Simple APIs</h2>
+                <h3>IP Address</h3>
+                <pre>GET /ip</pre>
+                <a target="_blank" href="/ip">See Example</a>
+                <p>
+                    Return IP address of client. Example: <code>203.0.113.1</code>.
+                </p>
+                <h3>User Agent</h3>
+                <pre>GET /ua</pre>
+                <a target="_blank" href="/ua">See Example</a>
+                <p>
+                    Return <code>User-Agent</code> if clent. Example: <code>curl/7.55.1</code>.<br/>
+                    The response can be empty with status 200 if client does not send a <code>User-Agent</code> header.
+                </p>
+                <h3>Current Server Timestamp</h3>
+                <pre>GET /ts</pre>
+                <a target="_blank" href="/ts">See Example</a>
+                <p>Return the current timestamp on server.</p>
+            </section>
+            <section>
+                <h2 id="clock">Clock</h2>
+                <pre>GET /clock/[?params]</pre>
+                <p>
+                    A danymic clock showing current time and tick every second. Can be used in browser, OBS or embedded devices.<br/>
+                    Clock time is based on <i>system time of your device</i>, so make your system time is set correctly.<br/>
+                    The clock does not support <i>Microsoft Internet Browser</i>. To use this clock, you must enable JavaScript.
+                </p>
+                <div class="clock-example-links">
+                    <a target="_blank" href="/clock">Default</a> |
+                    <a target="_blank" href="/clock?format=iso">ISO 8601</a> |
+                    <a target="_blank" href="/clock?format=rfc">RFC 2822</a> |
+                    <a target="_blank" href="/clock?format=http">HTTP RFC 7231</a> |
+                    <a target="_blank" href="/clock?format=timestamp">Timestamp</a>
+                </div>
+                <h3>Query String Parameters</h3>
+                <p>Please don't forget to do URL encode.</p>
+                <div class="aw-scoll-x">
+                    <table class="aw-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Default</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>                
+                                <td><code>background</code></td>
+                                <td><code>#ffffff</code></td>
+                                <td>Background color</td>
+                            </tr>
+                            <tr>                
+                                <td><code>color</code></td>
+                                <td><code>#000000</code></td>
+                                <td>Text color</td>
+                            </tr>
+                            <tr>                
+                                <td><code>format</code></td>
+                                <td><code>#000000</code></td>
+                                <td>Time format, see below</td>
+                            </tr>
+                            <tr>                
+                                <td><code>tz</code></td>
+                                <td><code>480</code></td>
+                                <td>
+                                    Timezone UTC offset in minutes
+                                    <br>Timezone calculation example:
+                                    <code>UTC+8 = 480 = 8 * 60</code>
+                                </td>
+                            </tr>
+                            <tr>                
+                                <td><code>lcd</code></td>
+                                <td><code>false</code></td>
+                                <td>If set to <code>true</code>, show time in LCD-style font.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h3>Time Foramts</h3>
+                <p>
+                    The time formatting function is provided by <a target="_blank" href="https://momentjs.com/">moment.js</a>.
+                    Please follow its <a target="_blank" href="https://momentjs.com/docs/#/displaying/format/">documentation of time formatting</a>.
+                    There are some alias of time format, see below.<br>
+                </p>
+                <div class="aw-scoll-x">
+                    <table class="aw-table">
+                        <thead>
+                            <tr>
+                                <th>Format</th>
+                                <th>Example</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>(NOT SET)</code></td>
+                                <td><code>2006-01-02 15:04:05</code></td>
+                                <td>Default format</td>
+                            </tr>
+                            <tr>
+                                <td><code>timestamp</code></td>
+                                <td><code>1136185445</code></td>
+                                <td>UNIX timestamp, 64-bit signed integer</td>
+                            </tr>
+                            <tr>
+                                <td><code>iso</code></td>
+                                <td><code>2006-01-02T15:04:05+08:00</code></td>
+                                <td><a target="_blank" href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> format</td>
+                            </tr>
+                            <tr>
+                                <td><code>rfc</code></td>
+                                <td><code>Mon, 02 Jan 2006 15:04:05 +0800</code></td>
+                                <td><a target="_blank" href="https://datatracker.ietf.org/doc/html/rfc2822">RFC 2822</a> format</td>
+                            </tr>
+                            <tr>
+                                <td><code>http</code></td>
+                                <td><code>Mon, 02 Jan 2006 07:04:05 GMT</code></td>
+                                <td>
+                                    <a target="_blank" href="https://datatracker.ietf.org/doc/html/rfc7231">RFC 7231</a>
+                                    aka. HTTP header format<br>
+                                    Timezone will be set to GMT, parameter <code>tz</code> is ignored.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </article>
+    </div>
+    <footer class="aw-footer">
+        <div class="aw-footer-copyright aw-footer-copyright-s">
+            <ul>
+                <li>&copy; 2022 Joseph Chris</li>
+                <li><a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a></li>
+                <li><a target="_blank" href="https://github.com/josephcz-xyz/ncsi">GitHub</a></li>
+            </ul>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCYPTE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <script src="/assets/lib/moment.min.js"></script>
+    <title>NCIS Clock</title>
+    <style>
+        @font-face {
+            font-family: "LCD";
+            src: url("lcd.ttf") format("TrueType"), url("lcd.ttf");
+        }
+
+        @font-face {
+            font-style: normal;
+            font-weight: 400;
+            font-family: "JetBrainsMono";
+            src: url("https://jcdn-1251131545.file.myqcloud.com/jetbrains-mono/2.242/JetBrainsMono-Regular.woff2") format("woff2");
+        }
+
+        body {
+            margin: 0;
+        }
+
+        .clock.lcd {
+            font-family: "LCD";
+            font-size: 80px;
+        }
+
+        .clock.normal {
+            font-family: "JetBrainsMono";
+            font-weight: 400;
+            font-size: 64px;
+        }
+    </style>
+</head>
+<body>
+    <!--[if IE]><span class="clock">Sorry, Internet Explorer is not Supported!</span><![endif]-->
+    <span class="clock"></span>
+</body>
+</html>
+<script>
+    const query = new URLSearchParams(location.search)
+    const config = {
+        background: query.get('background') || 'ffffff',
+        color: query.get('color') || '000000',
+        lcd: (["1", "y", "yes", "true"].indexOf((query.get("lcd") || "false").toLowerCase()) >= 0),
+        format: query.get("format") || "YYYY-MM-DD HH:mm:ss",
+        tz: isNaN(Number(query.get("tz"))) ? 480 : Number(query.get("tz")),
+    }
+
+    if (config.format.toLowerCase() === "timestamp") {
+        config.format = "X"
+    }
+    if (config.format.toLowerCase() === "iso") {
+        config.format = "YYYY-MM-DDTHH:mm:ssZ"
+    }
+    if (config.format.toLowerCase() === "rfc") {
+        config.format = "ddd, DD MMM YYYY HH:mm:ss Z"
+    }
+    if (config.format.toLowerCase() === "http") {
+        config.format = "ddd, DD MMM YYYY HH:mm:ss [GMT]"
+        config.tz = 0
+    }
+    console.log("Config:", config)
+
+    document.body.style.background = config.background
+    document.querySelector(".clock").style.color = config.color
+    document.querySelector(".clock").classList.add(config.lcd ? "lcd" : "normal")
+    setInterval(function(){
+        document.querySelector(".clock").innerText = moment().utcOffset(config.tz).format(config.format);
+    }, 500);
+</script>
